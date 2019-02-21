@@ -1,0 +1,4 @@
+Fix bugs in saving the wants array
+Incorparate a map esqe console
+Cash Register implementation
+Vendor info?

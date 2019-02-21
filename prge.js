@@ -2,7 +2,6 @@ const rls = require('readline-sync');
 const fs = require('fs');
 const ch = require('chalk');
 const cls = require('clear-screen');
-const fm = require("./file-manager.js");
 const log = console.log;
 const jsonPath = "test.json";
 

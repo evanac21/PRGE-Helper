@@ -1,5 +1,5 @@
+#PRGE Helper V1
 
-- ![#1589F0](https://placehold.it/15/1589F0/000000?text=PRGE Helper) `#1589F0`
 ## Requirements
   Currently Linux and Windows (Mac not tested but may work)
 

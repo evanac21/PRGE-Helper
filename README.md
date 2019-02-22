@@ -1,7 +1,7 @@
-# PRGE Helper (UN FINISHED)
+# PRGE Helper
 
 ## Requirements
-  Currently Linux ONLY
+  Currently Linux and Windows (Mac not tested but may work)
   Nodejs
 
 ## Getting Started
@@ -14,4 +14,3 @@ npm start
 
 ## Download
  [Link](https://drive.google.com/open?id=1DA0nVEqxxPmYqN-7TkidT88iN61xZw4L) - Download Link
-

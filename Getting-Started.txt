@@ -1,0 +1,7 @@
+Before first run make sure to add data to wants.json and budget.txt
+
+wants.json format = ["data1", "data2"...]
+
+budget.txt format = 2-4 digit integer
+
+To start use npm start or node prge.js

@@ -5,8 +5,8 @@ const cls = require('clear-screen');
 const log = console.log;
 const jsonPath = "test.json";
 
-const version = 0.2;
-const status = "UNRELEASED";
+const version = 0.5;
+const status = "RELEASED";
 
 var stBud = 200, speBud, curBud, parsedData;
 
@@ -19,7 +19,7 @@ function runtime() {
 
    log(ch.yellow("PRGE Helper"));
    log("b. Budget ");
-   log("s. Settings ");
+   log("i. Info ");
    log("m. Map ");
    log("w. Wants");
    log("bc. backup");
@@ -29,26 +29,27 @@ function runtime() {
      case 'b':
       budgetPanel();
       break;
-     case 's':
+     case 'i':
       log(ch.red("Info"));
       log(ch.yellow("Sys Version: ") + version);
       log(ch.yellow("Release Status: ") + status);
+      log(ch.yellow("Created by Evan Carter: 2019"));
       setTimeout(function () {
           runtime();
-        }, 10000)
+        }, 5000)
       break;
      case 'm':
+      mapPanel();
       break;
      case 'w':
      wantsPanel();
-      break;
-     case 'db':
-      debug();
       break;
     case 'bc':
       backup();
      break;
     case 'ex':
+    backupArray("wants");
+    backupArray("budget");
      process.exit(0);
      break;
    }
@@ -73,7 +74,18 @@ function budgetPanel() {
      break;
 }}
 function mapPanel() {
-//TODO
+var http = require('http');
+var opn = require('opn');
+log("Access the map at: localhost:8080");
+log("Running!");
+log("Ctrl+C to stop");
+opn('http://localhost:8080');
+http.createServer(function (req, res) {
+  var img = fs.readFileSync('./prgemap.png');
+
+  res.writeHead(200, {'Content-Type': 'image/gif' });
+  res.end(img, 'binary');
+}).listen(8080);
 }
 function wantsPanel() {
   cls();
@@ -84,9 +96,6 @@ function wantsPanel() {
   setTimeout( function() {
     runtime();
   }, 5000);
-}
-function debug() {
-
 }
 function backup() {
   backupArray("wants");
@@ -112,7 +121,6 @@ function recallArray(jsonP) {
     var unParsedData = fs.readFileSync("wants.json").toString();
     parsedData = JSON.parse(unParsedData);
     wants_array = parsedData;
-    log("t4");
   }}
 
 function startLogic() {

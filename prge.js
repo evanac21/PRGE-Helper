@@ -1,9 +1,23 @@
+/*
+   Created by Evan Carter
+   NOT TO BE USED FOR COMMERICAL PURPOSES
+   ____  ____   ____ _____   _   _      _
+|  _ \|  _ \ / ___| ____| | | | | ___| |_ __   ___ _ __
+| |_) | |_) | |  _|  _|   | |_| |/ _ \ | '_ \ / _ \ '__|
+|  __/|  _ <| |_| | |___  |  _  |  __/ | |_) |  __/ |
+|_|   |_| \_\\____|_____| |_| |_|\___|_| .__/ \___|_|
+                                      |_|              
+
+*/
+
 const rls = require('readline-sync');
 const fs = require('fs');
 const ch = require('chalk');
 const cls = require('clear-screen');
-const log = console.log;
+
 const jsonPath = "test.json";
+
+const log = console.log;
 
 const version = 0.5;
 const status = "RELEASED";
@@ -15,8 +29,8 @@ var wants_array = [];
 startLogic();
 runtime();
 function runtime() {
+  //Runtime of PRGE Helper and responsible for main functions
    cls();
-
    log(ch.yellow("PRGE Helper"));
    log("b. Budget ");
    log("i. Info ");
@@ -55,6 +69,7 @@ function runtime() {
    }
 }
 function budgetPanel() {
+  //Responsible for creating the budget panel
   cls();
   log(ch.red("Budget: "));
   log(ch.yellow("Current Spent: ") + speBud);
@@ -74,6 +89,7 @@ function budgetPanel() {
      break;
 }}
 function mapPanel() {
+ //Opens a link to localhost and creates the server required to host map
 var http = require('http');
 var opn = require('opn');
 log("Access the map at: localhost:8080");
@@ -87,7 +103,9 @@ http.createServer(function (req, res) {
   res.end(img, 'binary');
 }).listen(8080);
 }
+
 function wantsPanel() {
+  //Runs when "w" is given as input (Creates Wants info)
   cls();
   log(ch.red("Wants"));
   for(var i=0; i < wants_array.length; i++) {
@@ -98,6 +116,7 @@ function wantsPanel() {
   }, 5000);
 }
 function backup() {
+  //Backups both arrays at once (DEPRECATED NEED TO FIX)
   backupArray("wants");
   backupArray("budget");
   log("Backup Complete! Going back to runtime in 2 seconds");
@@ -106,6 +125,7 @@ function backup() {
   }, 2000)
 }
 function backupArray(jsonP) {
+  //Backs up a given array (budget, wants)
   var jsonP;
   if(jsonP == "budget") {
     fs.writeFileSync("budget.txt", curBud, 'utf-8');
@@ -113,6 +133,7 @@ function backupArray(jsonP) {
     fs.writeFileSync("wants.json", JSON.stringify(wants_array), 'utf-8');
   }}
 function recallArray(jsonP) {
+  //Recalls a given array (budget, wants)
   var jsonP;
   if(jsonP == "budget") {
     var ren = fs.readFileSync("budget.txt").toString();
@@ -124,6 +145,7 @@ function recallArray(jsonP) {
   }}
 
 function startLogic() {
+  //DEPRECATED NEED TO FIX
   recallArray("wants");
   recallArray("budget");
 }

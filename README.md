@@ -1,4 +1,4 @@
-#PRGE Helper V1
+## PRGE Helper
 
 ## Requirements
   Currently Linux and Windows (Mac not tested but may work)

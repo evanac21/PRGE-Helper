@@ -5,7 +5,7 @@ const cls = require('clear-screen');
 const log = console.log;
 const jsonPath = "test.json";
 
-const version = 0.1;
+const version = 0.2;
 const status = "UNRELEASED";
 
 var stBud = 200, speBud, curBud, parsedData;
@@ -16,12 +16,13 @@ startLogic();
 runtime();
 function runtime() {
    cls();
+
    log(ch.yellow("PRGE Helper"));
    log("b. Budget ");
    log("s. Settings ");
    log("m. Map ");
    log("w. Wants");
-   log("i. Input");
+   log("bc. backup");
    log("ex. Exit");
    var opt = rls.question("");
    switch(opt.toLowerCase()) {
@@ -44,8 +45,8 @@ function runtime() {
      case 'db':
       debug();
       break;
-    case 'i':
-     input();
+    case 'bc':
+      backup();
      break;
     case 'ex':
      process.exit(0);
@@ -55,12 +56,24 @@ function runtime() {
 function budgetPanel() {
   cls();
   log(ch.red("Budget: "));
-  log(ch.yellow("Starting Amount: ") + stBud);
   log(ch.yellow("Current Spent: ") + speBud);
   log(ch.yellow("Current spendable: ") + curBud);
-}
+  var monSpent = rls.question(ch.yellow("Any money spent?: "));
+  switch(monSpent) {
+    case 'y':
+      var spent = rls.question(ch.yellow("How much?: "));
+      curBud = curBud - spent;
+      speBud = speBud + spent;
+      budgetPanel();
+     break;
+    case 'n':
+    setTimeout( function() {
+      runtime();
+    }, 5000);
+     break;
+}}
 function mapPanel() {
-
+//TODO
 }
 function wantsPanel() {
   cls();
@@ -70,49 +83,39 @@ function wantsPanel() {
   }
   setTimeout( function() {
     runtime();
-  }, 10000);
+  }, 5000);
 }
 function debug() {
-  recallArray();
-  log(wants_array[0]);
-}
-function input() {
-  log(ch.red("Current $: ") + curBud);
-  log("Has money been spent? (y/n)");
-  var opt1 = rls.question("");
-  if(opt1 == "y" || opt1 == 'Y') {
-    var subMon = rls.question("How much? ");
-    curBud = curBud - subMon;
-    log(ch.red("Current $: ") + curBud);
-    setTimeout(function() {
-      runtime();
-    }, 3000);
-  }else if(opt1 == "n" || opt1 == 'N') {
-    log(ch.red("Reload previous current $ and Wants? (y/n): "));
-    var opt2 = rls.question("");
-    if(opt2.toLowerCase() == 'y') {
-       recallArray();
-       log("Complete!");
-       setTimeout(function() {
-         runtime();
-       }, 3000);
-    }else if(opt2.toLowerCase() == 'n') {
-      runtime();
-    }
-  }
-}
-function backupArry() {
-  fs.writeFileSync("test.json", JSON.stringify(wants_array), 'utf-8');
-}
-function recallArray() {
-  var unParsedData = fs.readFileSync("test.json").toString();
-  parsedData = JSON.parse(unParsedData);
-  wants_array = parsedData;
-  log(unParsedData);
-  log(parsedData);
-}
-function startLogic() {
-  curBud = stBud;
-}
-//TO:DO: Storing wants
 
+}
+function backup() {
+  backupArray("wants");
+  backupArray("budget");
+  log("Backup Complete! Going back to runtime in 2 seconds");
+  setTimeout(function() {
+    runtime();
+  }, 2000)
+}
+function backupArray(jsonP) {
+  var jsonP;
+  if(jsonP == "budget") {
+    fs.writeFileSync("budget.txt", curBud, 'utf-8');
+  }else if(jsonP == "wants") {
+    fs.writeFileSync("wants.json", JSON.stringify(wants_array), 'utf-8');
+  }}
+function recallArray(jsonP) {
+  var jsonP;
+  if(jsonP == "budget") {
+    var ren = fs.readFileSync("budget.txt").toString();
+    curBud = parseInt(ren);
+  }else if(jsonP == "wants") {
+    var unParsedData = fs.readFileSync("wants.json").toString();
+    parsedData = JSON.parse(unParsedData);
+    wants_array = parsedData;
+    log("t4");
+  }}
+
+function startLogic() {
+  recallArray("wants");
+  recallArray("budget");
+}
